@@ -228,9 +228,7 @@ public class search extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       stdms s = new stdms();
-       this.hide();
-       s.setVisible(true);
+       dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnsearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsearchActionPerformed

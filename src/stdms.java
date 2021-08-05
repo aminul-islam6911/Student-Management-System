@@ -44,6 +44,7 @@ public class stdms extends javax.swing.JFrame {
     public void User_load()
     {
         int c;
+        jComboBox1.removeAllItems();
         try {
             pst = con.prepareStatement("select * from stdlist");
             rs = pst.executeQuery();
@@ -63,8 +64,7 @@ public class stdms extends javax.swing.JFrame {
             for (int x = 0; x < jTable1.getColumnCount(); x++) {
                 jTable1.getColumnModel().getColumn(x).setCellRenderer(centerRenderer);
             }
-            
-            
+  
             while(rs.next())
             {
                 Vector v2 = new Vector();
@@ -75,8 +75,9 @@ public class stdms extends javax.swing.JFrame {
                     v2.add(rs.getString("id"));
                     v2.add(rs.getString("name"));
                     v2.add(rs.getString("ph"));
-                    v2.add(rs.getString("dep"));
+                    v2.add(rs.getString("dep"));     
                 }
+                jComboBox1.addItem(rs.getString("id"));
                 d.addRow(v2);
             }
             
@@ -164,12 +165,12 @@ public class stdms extends javax.swing.JFrame {
         btn2exit = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        txtid = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtcg = new javax.swing.JTextField();
         txttri = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         btnnext1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -287,6 +288,12 @@ public class stdms extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Trebuchet MS", 1, 18)); // NOI18N
         jLabel4.setText("Department");
+
+        stdphone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stdphoneActionPerformed(evt);
+            }
+        });
 
         stdname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -469,19 +476,19 @@ public class stdms extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
-                                .addGap(3, 3, 3)
-                                .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)
-                                .addComponent(txttri, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(txttri, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)
-                                .addComponent(txtcg, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
+                                .addGap(18, 18, 18)
+                                .addComponent(txtcg, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -489,9 +496,9 @@ public class stdms extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtid, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(jComboBox1))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -715,7 +722,7 @@ public class stdms extends javax.swing.JFrame {
     private void btn2clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2clearActionPerformed
 
         btn2add.setEnabled(true);
-        txtid.setText("");
+        jComboBox1.setSelectedIndex(-1);
         txttri.setText("");
         txtcg.setText("");
         info_load();
@@ -734,7 +741,7 @@ public class stdms extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Student Record Delted");
             btn2add.setEnabled(true);
 
-            txtid.setText("");
+            jComboBox1.setSelectedIndex(-1);
             txttri.setText("");
             txtcg.setText("");
             info_load();
@@ -752,7 +759,7 @@ public class stdms extends javax.swing.JFrame {
 
             String info_no = d.getValueAt(selecIndex, 0).toString();
 
-            String info_id = txtid.getText();
+            String info_id = (String)jComboBox1.getSelectedItem();
             String tri = txttri.getText();
             String cgpa = txtcg.getText();
             pst = con.prepareStatement("update stdinfo set info_id=?, tri=?, cgpa=? where info_no=?");
@@ -764,10 +771,9 @@ public class stdms extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Student Record Updated");
             btn2add.setEnabled(true);
 
-            stdid.setText("");
-            stdname.setText("");
-            stdphone.setText("");
-            stddepertment.setText("");
+            jComboBox1.setSelectedIndex(-1);
+            txttri.setText("");
+            txtcg.setText("");
             info_load();
 
         } catch (SQLException ex) {
@@ -778,7 +784,7 @@ public class stdms extends javax.swing.JFrame {
     private void btn2addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn2addActionPerformed
 
         try {
-            String info_id = txtid.getText();
+            String info_id = (String)jComboBox1.getSelectedItem();
             String tri = txttri.getText();
             String cgpa = txtcg.getText();
             pst = con.prepareStatement("insert into stdinfo(info_id,tri,cgpa)values(?,?,?)");
@@ -788,7 +794,7 @@ public class stdms extends javax.swing.JFrame {
             pst.executeUpdate();
             JOptionPane.showMessageDialog(this,"Student Record Added");
 
-            txtid.setText("");
+            jComboBox1.setSelectedIndex(-1);
             txttri.setText("");
             txtcg.setText("");
             info_load();
@@ -804,7 +810,7 @@ public class stdms extends javax.swing.JFrame {
         int selecIndex = jTable2.getSelectedRow();
 
         String info_no = d.getValueAt(selecIndex, 0).toString();
-        txtid.setText(d.getValueAt(selecIndex, 1).toString());
+        jComboBox1.setSelectedItem(d.getValueAt(selecIndex, 1).toString());
         txttri.setText(d.getValueAt(selecIndex, 2).toString());
         txtcg.setText(d.getValueAt(selecIndex, 3).toString());
 
@@ -970,6 +976,10 @@ public class stdms extends javax.swing.JFrame {
     private void btnback2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnback2ActionPerformed
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_btnback2ActionPerformed
+
+    private void stdphoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stdphoneActionPerformed
+        
+    }//GEN-LAST:event_stdphoneActionPerformed
 private JFrame frame;
     /**
      * @param args the command line arguments
@@ -1025,6 +1035,7 @@ private JFrame frame;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1056,7 +1067,6 @@ private JFrame frame;
     private javax.swing.JTextField stdname;
     private javax.swing.JTextField stdphone;
     private javax.swing.JTextField txtcg;
-    private javax.swing.JTextField txtid;
     private javax.swing.JTextField txttri;
     // End of variables declaration//GEN-END:variables
 }
